@@ -5,7 +5,7 @@ import apiai
 import uuid
 import json
 
-CLIENT_ACCESS_TOKEN = 'b843190752724a41ade9e850460541a4'
+CLIENT_ACCESS_TOKEN = '5e8f197999b74c32a32219df882e88cf'
 
 class dialogflowHandler:
 
