@@ -86,7 +86,9 @@ function validateTargetName(targetName) {
 
 function setMeetingInfo(intent, callback) {
     const targetName = intent.currentIntent.slots.target_name;
-    const userName = intent.currentIntent.slots.user_name;
+    // const userName = intent.currentIntent.slots.user_name;
+    const userFirstName = intent.currentIntent.slots.first_name;
+    const userLastName = intent.currentIntent.slots.last_name;
     const time = intent.currentIntent.slots.time;
     const source = intent.invocationSource;
 
@@ -113,7 +115,9 @@ function setMeetingInfo(intent, callback) {
     }
     // All slots are satisfied
     const outputSessionAttributes = {
-        "user_name": userName,
+        // "user_name": userName,
+        "first_name": userFirstName,
+        "last_name": userLastName,
         "target_name": targetName,
         "time": time
     }
@@ -122,14 +126,16 @@ function setMeetingInfo(intent, callback) {
         'Fulfilled',
         {
             contentType: 'PlainText',
-            content: `Hi ${userName}, I have checked you in. 
+            content: `Hi ${userFirstName} ${userLastName}, I have checked you in. 
                 please have a seat, ${targetName} will be with you shortly.`
         })
     );
 }
 
 function getWaitingTime(intent, session, callback) {
-    const userName = intent.sessionAttributes.user_name;
+    // const userName = intent.sessionAttributes.user_name;
+    const userFirstName = intent.sessionAttributes.first_name;
+    const userLastName = intent.sessionAttributes.last_name;
     const targetName = intent.sessionAttributes.target_name;
 
     callback(close(
@@ -137,7 +143,7 @@ function getWaitingTime(intent, session, callback) {
         'Fulfilled',
         {
             contentType: 'PlainText',
-            content: `Hi ${userName}, ${targetName} is current busy with a another patient, 
+            content: `Hi ${userFirstName} ${userLastName}, ${targetName} is current busy with a another patient, 
                 the estimated waiting time is 7 mins`
         })
     );

@@ -1,13 +1,9 @@
+#!/usr/bin/python
 import rospy
 from std_msgs.msg import String
-import signal
-import sys
 import json
 import uuid
 import boto3
-import subprocess
-from contextlib import closing
-import os
 
 class LexHandler: 
     

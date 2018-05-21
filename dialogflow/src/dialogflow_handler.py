@@ -1,13 +1,14 @@
+#!/usr/bin/python
 import rospy
-from std_msgs.msg import String
-
 import apiai
 import uuid
 import json
 
+from std_msgs.msg import String
+
 CLIENT_ACCESS_TOKEN = '5e8f197999b74c32a32219df882e88cf'
 
-class dialogflowHandler:
+class DialogflowHandler:
 
 	def __init__(self):
 
@@ -17,6 +18,7 @@ class dialogflowHandler:
 		
 		self.google_pub = rospy.Publisher('/google_speech_output', String, queue_size=10)
 		rospy.Subscriber('/speech_text_input', String, self.get_response)
+		rospy.spin()
 
 	def get_response(self, data):
 		request = self.ai.text_request()
@@ -31,7 +33,7 @@ class dialogflowHandler:
 
 	def process_response(self, resp):
 		self.speech = resp['result']['fulfillment']['speech']
-		self.loginfo('speech: %s'%(self.speech))
+		rospy.loginfo('speech: %s'%(self.speech))
 		# Publish speech output
 		self.google_pub.publish(self.speech)
 
@@ -39,5 +41,6 @@ class dialogflowHandler:
 
 if __name__ == '__main__':
     rospy.init_node('google_intent_handler', anonymous=False)
-    g = dialogflowHandler()
-    rospy.spin()
+    try:
+    	g = DialogflowHandler();
+    except rospy.ROSInterruptException: pass

@@ -8,8 +8,8 @@ from std_msgs.msg import String
 USERNAME = 'd4800555-9a61-4bce-8a30-17d7aa12d2da'
 PASSWORD = 'Lo3zZbIDE3Mo'
 VERSION = '2018-04-12'
-# WORKSPACE_ID = '6cdc9c42-a579-4f2b-a90c-3b27c1198113'
-WORKSPACE_ID = '3ddfa9f7-5f07-484a-9379-c61635ca8fb6'
+WORKSPACE_ID = '6cdc9c42-a579-4f2b-a90c-3b27c1198113' 
+# WORKSPACE_ID = '3ddfa9f7-5f07-484a-9379-c61635ca8fb6'
 
 class WatsonHandler:
 
@@ -36,7 +36,8 @@ class WatsonHandler:
 	def process_response(self, resp):
 		print(json.dumps(resp, indent=2))
 		
-		self.speech = resp['output']['text']['speech']
+		self.speech = resp['output']['text']
+		rospy.logwarn(type(resp['output']['text']))
 		rospy.loginfo('speech: %s'%(self.speech))
 		# Publish speech output
 		self.watson_pub.publish(self.speech)
