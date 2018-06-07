@@ -60,7 +60,7 @@ function buildValidationResult(isValid, violatedSlot, messageContent) {
 
  // --------------- Functions that control the bot's behavior -----------------------
 
-function getGreeting(intent, callback) {
+function welcomeHandler(intent, callback) {
     callback(close(
         intent.sessionAttributes, 
         'Fulfilled',
@@ -84,7 +84,7 @@ function validateTargetName(targetName) {
     return buildValidationResult(true, null, null);
 }
 
-function setMeetingInfo(intent, callback) {
+function meetingHandler(intent, callback) {
     const targetName = intent.currentIntent.slots.target_name;
     // const userName = intent.currentIntent.slots.user_name;
     const userFirstName = intent.currentIntent.slots.first_name;
@@ -106,7 +106,6 @@ function setMeetingInfo(intent, callback) {
                 validationResult.message)
             );
         }
-
         const outputSessionAttributes = intent.sessionAttributes || {};
         callback(delegate(
             outputSessionAttributes,
@@ -132,7 +131,7 @@ function setMeetingInfo(intent, callback) {
     );
 }
 
-function getWaitingTime(intent, session, callback) {
+function WaitingAppointmentHandler(intent, session, callback) {
     // const userName = intent.sessionAttributes.user_name;
     const userFirstName = intent.sessionAttributes.first_name;
     const userLastName = intent.sessionAttributes.last_name;
@@ -149,7 +148,7 @@ function getWaitingTime(intent, session, callback) {
     );
 }
 
-function getAppointmentDuration(intent, session, callback) {
+function appointmentDurationHandler(intent, session, callback) {
     callback(close(
         session,
         'Fulfilled',
@@ -173,13 +172,13 @@ function dispatch(intent, session, callback) {
 
     // Dispatch to your skill's intent handlers
     if (intentName === 'Welcome') {
-        return getGreeting(intent, callback);
+        return welcomeHandler(intent, callback);
     } else if (intentName === 'Meeting') {
-        return setMeetingInfo(intent, callback);
+        return meetingHandler(intent, callback);
     } else if (intentName === 'WaitingAppointment') {
-        return getWaitingTime(intent, session, callback);
+        return WaitingAppointmentHandler(intent, session, callback);
     } else if (intentName === 'appointmentDuration') {
-        return getAppointmentDuration(intent, session, callback);
+        return appointmentDurationHandler(intent, session, callback);
     } else {
         throw new Error(`Intent with name ${intentName} not supported`);    
     }
